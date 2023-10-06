@@ -10,9 +10,11 @@
     "astro": "astro"
   },
   "dependencies": {
+    "@astrojs/solid-js": "^3.0.2",
+    "@astrojs/vercel": "^5.0.1",
     "astro": "^3.0.12",
     "pocketbase": "^0.18.1",
-    "@astrojs/vercel": "^5.0.1"
+    "solid-js": "^1.7.12"
   },
   "devDependencies": {
     "sass": "^1.61.0"
