@@ -30,11 +30,8 @@ if (Astro.request.method === "POST") {
         }
         // const hasErrors = Object.values(errors).some(msg => msg)
         if (!hasErrors) {
-            // register ther user;
-            // Do something with the form data
             // Try register the user
             try {
-                // console.log("Data to submit: ", data)
                 await locals.pb.collection('users').create({email, password, passwordConfirm})
                 // await POCKET.collection('users').create(email, password)
             } catch (e) {
@@ -101,5 +98,5 @@ if (Astro.request.method === "POST") {
         color: tomato;
         font-weight: bold;
     }
-  }
+  
 </style>
