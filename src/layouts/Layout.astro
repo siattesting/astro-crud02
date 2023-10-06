@@ -1,8 +1,7 @@
 ---
 import BaseHead from "../components/BaseHead.astro";
 import Header from "../components/Header.astro";
-import Footer from "../components/Footer.astro";
-
+const today = new Date();
 const { title, description, pubDate, updatedDate, heroImage, slug } = Astro.props;
 ---
 
@@ -15,7 +14,10 @@ const { title, description, pubDate, updatedDate, heroImage, slug } = Astro.prop
         <main>
             <slot />
         </main>
-        <Footer />
+        <footer>
+            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Amet, illum.</p>
+            &copy; {today.getFullYear()} YOUR NAME HERE. All rights reserved.
+        </footer>
 		
 	</body>
 </html>
