@@ -10,6 +10,11 @@
     "astro": "astro"
   },
   "dependencies": {
-    "astro": "^3.0.12"
+    "astro": "^3.0.12",
+    "pocketbase": "^0.18.1",
+    "@astrojs/vercel": "^5.0.1"
+  },
+  "devDependencies": {
+    "sass": "^1.61.0"
   }
 }
