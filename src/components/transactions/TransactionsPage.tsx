@@ -1,4 +1,5 @@
 import { createSignal, onMount, For } from 'solid-js';
+import { getAllTransactions } from '../../service//TransactionsService';
 export default function CreateTransaction() {
   const [transactions, setTransactions] = createSignal([]);
 
