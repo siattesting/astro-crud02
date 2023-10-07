@@ -18,6 +18,10 @@ export default function CreateTransaction() {
             <div>
               <h2>{transaction.id}</h2>
               <p>{transaction.title}</p>
+              <hr />
+              <small>
+                <pre>{JSON.stringify(transaction, null, 2)}</pre>
+              </small>
             </div>
           )}
         </For>
