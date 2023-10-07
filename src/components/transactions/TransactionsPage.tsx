@@ -1,11 +1,13 @@
-import { createSignal, onMount, For } from 'solid-js';
+import { For, createResource } from 'solid-js';
 import { getAllTransactions } from '../../service//TransactionsService';
 export default function CreateTransaction() {
-  const [transactions, setTransactions] = createSignal([]);
+  const [transactions] = createResource(fetchTransactions);
 
-  onMount(async () => {
-    setTransactions(await getAllTransactions());
-  });
+  async function fetchTransactions() {
+    const results = await getAllTransactions();
+    return results;
+  }
+
   return (
     <section>
       <div>Forn here</div>
