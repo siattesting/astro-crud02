@@ -12,7 +12,12 @@ export default function CreateTransaction() {
       <div>
         List here
         <For each={transactions()}>
-          {(transaction, i) => <p>{transaction.id}</p>}
+          {(transaction, i) => (
+            <div>
+              <h2>{transaction.id}</h2>
+              <p>{transaction.title}</p>
+            </div>
+          )}
         </For>
       </div>
     </section>
