@@ -59,6 +59,10 @@ export async function getTransaction(id: string) {
   return await POCKET.collection('transactions').getOne(id);
 }
 
+export async function getAllTransactions() {
+  return await POCKET.collection('transactions').getFullList({});
+}
+
 export async function updateChat(id: string, messages: Message[]) {
   return await POCKET.collection('chats').update(id, {
     messages,
