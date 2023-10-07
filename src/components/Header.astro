@@ -1,6 +1,8 @@
 ---
 import HeaderLink from './HeaderLink.astro';
 import { SITE_TITLE } from '../consts';
+const data = Astro.locals
+const currentUser = data.user
 ---
 
 <header transition:animate="none">
@@ -10,11 +12,11 @@ import { SITE_TITLE } from '../consts';
 	<nav>
 		<HeaderLink href="/">Home</HeaderLink>
 		<HeaderLink href="/blog">Blog</HeaderLink>
-		<HeaderLink href="/transactions">Transactions</HeaderLink>
+		{currentUser && <HeaderLink href="/transactions">Transactions</HeaderLink>}
 		<HeaderLink href="/about">About</HeaderLink>
-		<HeaderLink href="/auth/signup">Signup</HeaderLink>
-		<HeaderLink href="/auth/login">Login</HeaderLink>
-		<HeaderLink href="/auth/profile">Profile</HeaderLink>
+		{!currentUser && <HeaderLink href="/auth/signup">Signup</HeaderLink>}
+		{!currentUser && <HeaderLink href="/auth/login">Login</HeaderLink>}
+		{currentUser && <HeaderLink href="/auth/profile">Profile</HeaderLink>}
 		<!-- <HeaderLink href="https://twitter.com/astrodotbuild" target="_blank">Twitter</HeaderLink>
 		<HeaderLink href="https://github.com/withastro/astro" target="_blank">GitHub</HeaderLink> -->
 	</nav>
