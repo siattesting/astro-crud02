@@ -6,6 +6,12 @@ export interface User {
   name: string;
 }
 
+export interface Username {
+  id: string;
+  username: string;
+  email: string;
+}
+
 export async function loginWithPass(mail: string, pass: string) {
   const resp = await POCKET.collection('users').authWithPassword(mail, pass);
   addInSorage(resp.record);
@@ -17,7 +23,7 @@ export async function registerWithPass(
   name: string
 ) {
   const record = await POCKET.collection('users').create({
-    name,
+    username: name,
     email: mail,
     emailVisibility: true,
     password: pass,
