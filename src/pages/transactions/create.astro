@@ -1,11 +1,36 @@
 ---
 import Layout from '../../layouts/Layout.astro'
 const locals = Astro.locals
+// Redirect the user if not authenticated
 const session = await locals.pb.authStore.isValid
 if(!session) return Astro.redirect("/auth/login")
 
 // Form submission
+if (Astro.request.method === "POST") {
+  try {
+    const data = await Astro.request.formData();
+    const title = data.get("title");
+    const text = data.get("text");
+    const amount = number(data.get("amount"));
+    const type = data.get("type");
+    const date_operation = date(data.get("date"));
+    const author = await locals.pb.authStore.model.id;
+    // Do something with the data
+    const newTransaction = {
+        title, text, amount, type, date, author
+    }
+    await locals.pb.collection("transactions").create(newTransaction)
 
+
+  } catch (error) {
+    if (error instanceof Error) {
+      console.error(error.message);
+    }
+  }
+
+  return Astro.redirect('/transactions')
+
+}
 ---
 
 <Layout>
@@ -18,7 +43,7 @@ if(!session) return Astro.redirect("/auth/login")
             </label>
             <label for="text">
                 <span>Description</span>
-                <input type="text" placeholder="Description" name="text" required />
+                <textarea placeholder="Description" name="text" required  rows={5}/>
             </label>
             <label for="amount">
                 <span>Amount</span>
@@ -27,11 +52,11 @@ if(!session) return Astro.redirect("/auth/login")
             <label for="type">
                 <span>Type</span>
                 <select name="type">
-                    {["RECETTE", "DEPENSES"].map(option => <option>{option}</option> )}
+                    {["RECETTES", "DEPENSES"].map(type => <option>{type}</option> )}
                 </select>
             </label>
             <label for="date">
-                <span>Date</date>
+                <span>Date</span>
                 <input type="date" name="date" required />
             </label>
             <button type="submit">Save</button>
