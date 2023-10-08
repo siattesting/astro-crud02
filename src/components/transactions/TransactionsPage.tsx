@@ -12,7 +12,10 @@ export default function CreateTransaction() {
     <section>
       <div>Forn here</div>
       <div>
-        List here
+        <p>List here</p>
+        <p>
+          <a href="/transactions/create">Create</a>
+        </p>
         <For each={transactions()}>
           {(transaction, i) => (
             <div>

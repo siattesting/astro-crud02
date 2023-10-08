@@ -1,0 +1,57 @@
+---
+import Layout from '../../layouts/Layout.astro'
+const locals = Astro.locals
+const session = await locals.pb.authStore.isValid
+if(!session) return Astro.redirect("/auth/login")
+
+// Form submission
+
+---
+
+<Layout>
+    <div>
+        <h2>Create Form</h2>
+        <form method="POST">
+            <label for="title">
+                <span>Title</span>
+                <input type="text" placeholder="Title" name="title" required />
+            </label>
+            <label for="text">
+                <span>Description</span>
+                <input type="text" placeholder="Description" name="text" required />
+            </label>
+            <label for="amount">
+                <span>Amount</span>
+                <input type="number"  name="amount" required  />
+            </label>
+            <label for="type">
+                <span>Type</span>
+                <select name="type">
+                    {["RECETTE", "DEPENSES"].map(option => <option>{option}</option> )}
+                </select>
+            </label>
+            <label for="date">
+                <span>Date</date>
+                <input type="date" name="date" required />
+            </label>
+            <button type="submit">Save</button>
+        </form>
+    </div>
+</Layout>
+
+<style>
+    form {
+        display: grid;
+        grid-template-columns: max-content 1fr;
+        gap: 1em;
+        margin-bottom: 1em;
+        width: 60%;
+    }
+    label {
+        grid-column: span 2;
+        display: grid;
+        grid: inherit;
+        gap: inherit;
+        grid-template-columns: subgrid;        
+    }
+</style>
