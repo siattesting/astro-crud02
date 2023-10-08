@@ -6,18 +6,32 @@ const session = await locals.pb.authStore.isValid
 if(!session) return Astro.redirect("/auth/login")
 
 // Form submission
+const errors = { title: "", text: "", amount: "", type: "", date_operation: ""}
+const hasErrors = Object.values(errors).some(msg => msg)
 if (Astro.request.method === "POST") {
-  try {
+ 
     const data = await Astro.request.formData();
-    const title = data.get("title");
+    const title = data.get("title").trim();
     const text = data.get("text");
-    const amount = number(data.get("amount"));
-    const type = data.get("type");
-    const date_operation = date(data.get("date"));
+    const amount = Number(data.get("amount"));
+    const type = data.get("type").trim();
+    const date_operation = Date(data.get("date"));
     const author = await locals.pb.authStore.model.id;
+    // Validation
+    if (typeof title !== "string" || title.length < 3) {
+        errors.title += "Please enter a title of at least 3 characters"
+    }
+    if (typeof text !== "string" || text.length < 3) {
+        errors.text += "Please enter a description of at least 3 characters"
+    }
+    if (typeof amount !== "number" ) {
+        errors.amount += "Please enter a valid amount, not equal to zero"
+    }
     // Do something with the data
+    if (!hasErrors) {
+    try {
     const newTransaction = {
-        title, text, amount, type, date, author
+        title, text, amount, type, date_operation, author
     }
     await locals.pb.collection("transactions").create(newTransaction)
 
@@ -26,7 +40,8 @@ if (Astro.request.method === "POST") {
     if (error instanceof Error) {
       console.error(error.message);
     }
-  }
+    console.log(error)
+  }}
 
   return Astro.redirect('/transactions')
 
@@ -41,14 +56,17 @@ if (Astro.request.method === "POST") {
                 <span>Title</span>
                 <input type="text" placeholder="Title" name="title" required />
             </label>
+            {errors.title && <span class="error">{errors.title}</span>}
             <label for="text">
                 <span>Description</span>
                 <textarea placeholder="Description" name="text" required  rows={5}/>
             </label>
+            {errors.text && <span class="error">{errors.text}</span>}
             <label for="amount">
                 <span>Amount</span>
                 <input type="number"  name="amount" required  />
             </label>
+            {errors.amount && <span class="error">{errors.amount}</span>}
             <label for="type">
                 <span>Type</span>
                 <select name="type">
@@ -59,7 +77,7 @@ if (Astro.request.method === "POST") {
                 <span>Date</span>
                 <input type="date" name="date" required />
             </label>
-            <button type="submit">Save</button>
+            <button type="submit" disabled={hasErrors}>Save</button>
         </form>
     </div>
 </Layout>
