@@ -47,7 +47,7 @@ if (Astro.request.method === "POST") {
 ---
 
 <Layout>
-    <div>
+    <!-- <div>
         <h2>Create Form</h2>
         <form method="POST">
             <label for="title">
@@ -79,7 +79,27 @@ if (Astro.request.method === "POST") {
             </label>
             <button type="submit" class="label" >Save</button>
         </form>
-    </div>
+    </div> -->
+
+    <div class="news-form">
+        <p>Add your transactions</p>
+        <hr />
+        <form method="POST">
+          <label for="title">Title</label>
+          <input type="text" name="title" id="title" placeholder="Title" />
+          <label for="text">Description</label>
+          <textarea name="text" id="text"  placeholder="Description"/>
+          <label for="amount">Amount</label>
+          <input type="number" name="amount" id="amount" />
+          <label for="date">Date</label>
+          <input type="date" name="date" id="date" />
+          <label for="type">Type de flux</label>
+          <select name="type" id="type">
+            {["DEPENSES", "RECETTES"].map(type => <option>{type}</option>)}
+          </select>
+          <button type="submit">Save</button>
+        </form>
+      </div>
 </Layout>
 
 <style>
@@ -99,5 +119,73 @@ if (Astro.request.method === "POST") {
     }
     .error {
         color: red;
+    }
+
+    main {
+      margin: auto;
+      padding: 1.5rem;
+      max-width: 60ch;
+    }
+    h1 {
+      font-size: 3rem;
+      font-weight: 800;
+      margin: 0;
+    }
+    hr, p {
+      margin: 5px 0;
+    }
+    label {
+      font-size: 0.875rem;
+      font-style: italic;
+    }
+    input, select {
+      width: 100%;
+      padding: 5px;
+      margin: 0 0 5px 0;
+      display: inline-block;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+      box-sizing: border-box;
+    }
+    button {
+      cursor: pointer;
+      margin: 10px 0 0 0;
+      padding: 10px;
+      font-weight: bold;
+      color: #fff;
+      background-image: var(--accent-gradient);
+      background-size: 400%;
+      background-position: 0%;
+      border: none;
+      border-radius: 4px;
+    }
+    button:hover {
+      background-position: 10%;
+    }
+    .text-gradient {
+      background-image: var(--accent-gradient);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-size: 400%;
+      background-position: 0%;
+    }
+    .news-form {
+      line-height: 1.6;
+      margin: 1rem 0;
+      border: 1px solid rgba(var(--accent), 25%);
+      background-color: white;
+      padding: 1rem;
+      border-radius: 0.4rem;
+    }
+    .news-form code {
+      font-size: 0.875em;
+      font-weight: bold;
+      background: rgba(var(--accent), 12%);
+      color: rgb(var(--accent));
+      border-radius: 4px;
+      padding: 0.3em 0.45em;
+    }
+    .news-form strong {
+      color: rgb(var(--accent));
     }
 </style>

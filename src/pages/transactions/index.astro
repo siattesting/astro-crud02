@@ -5,6 +5,47 @@ import TransactionCard from "../../components/transactions/TransactionCard.astro
 import Layout from "../../layouts/Layout.astro"
 const locals = Astro.locals
 const transactions = await locals.pb.collection('transactions').getFullList()
+
+// Process from submission if required
+const errors = { title: "", text: "", amount: "", type: "", date_operation: ""}
+let editing = true;
+if (Astro.request.method === "POST") {
+    try {
+        const data = await Astro.request.formData();
+        const title = data.get("title").trim();
+        const text = data.get("text");
+        const amount = Number(data.get("amount"));
+        const type = data.get("type").trim();
+        const date_operation = Date(data.get("date"));
+        const author = await locals.pb.authStore.model.id;
+        // Validation
+        if (typeof title !== "string" || title.length < 3) {
+            errors.title += "Please enter a title of at least 3 characters"
+        }
+        if (typeof text !== "string" || text.length < 3) {
+            errors.text += "Please enter a description of at least 3 characters"
+        }
+        if (typeof amount !== "number" ) {
+            errors.amount += "Please enter a valid amount, not equal to zero"
+        }
+        // Do something with the data
+        const hasErrors = Object.values(errors).some(msg => msg)
+        if (!hasErrors) {
+            
+                const newTransaction = {
+                    title, text, amount, type, date_operation, author
+                }
+                await locals.pb.collection("transactions").create(newTransaction)
+                editing = false
+                return Astro.redirect('/transactions')
+        }
+    } catch (error) {
+        if (error instanceof Error) {
+            console.error(error.message);
+        }
+        console.log(error)
+    }
+}
 ---
 <!-- 
 <Layout>
@@ -13,6 +54,9 @@ const transactions = await locals.pb.collection('transactions').getFullList()
 
 <Layout>
     <main>
+      <h1>Transactions</h1>
+    
+      <a href="/transactions/create">Create</a>
         <div class="link-card-grid">
             {transactions && transactions.map(transaction => (
                 <TransactionCard { ...transaction} />
@@ -40,7 +84,7 @@ const transactions = await locals.pb.collection('transactions').getFullList()
       font-size: 0.875rem;
       font-style: italic;
     }
-    input {
+    input, select {
       width: 100%;
       padding: 5px;
       margin: 0 0 5px 0;
