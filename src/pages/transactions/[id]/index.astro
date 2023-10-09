@@ -1,0 +1,11 @@
+---
+import Layout from '../../../layouts//Layout.astro'
+import TransactionCard from '../../../components/transactions/TransactionCard.astro'
+import { getTransaction } from '../../../service//TransactionsService'
+const { id } = Astro.params
+const transaction = await getTransaction(id)
+---
+
+<Layout>
+    <TransactionCard {...transaction} />
+</Layout>
