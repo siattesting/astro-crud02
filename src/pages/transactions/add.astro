@@ -1,0 +1,11 @@
+---
+import Layout from '../../layouts/Layout.astro'
+import TransactionForm from '../../components/transactions/TransactionForm.svelte'
+const locals = Astro.locals
+// Redirect the user if not authenticated
+const session = await locals.pb.authStore.isValid
+if(!session) return Astro.redirect("/auth/login")
+---
+<Layout>
+    <TransactionForm client:load />
+</Layout>

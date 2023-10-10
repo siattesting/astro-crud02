@@ -6,23 +6,23 @@ const session = await locals.pb.authStore.isValid
 if(!session) return Astro.redirect("/auth/login")
 
 // Form submission
-const errors = { title: "", text: "", amount: "", type: "", date_operation: ""}
+const errors = { title: "", content: "", amount: "", type: "", date_operation: ""}
 
 if (Astro.request.method === "POST") {
     try {
         const data = await Astro.request.formData();
         const title = data.get("title").trim();
-        const text = data.get("text");
+        const content = data.get("content");
         const amount = Number(data.get("amount"));
         const type = data.get("type").trim();
-        const date_operation = Date(data.get("date"));
+        const date_operation = data.get("date");
         const author = await locals.pb.authStore.model.id;
         // Validation
         if (typeof title !== "string" || title.length < 3) {
             errors.title += "Please enter a title of at least 3 characters"
         }
-        if (typeof text !== "string" || text.length < 3) {
-            errors.text += "Please enter a description of at least 3 characters"
+        if (typeof content !== "string" || content.length < 3) {
+            errors.content += "Please enter a description of at least 3 characters"
         }
         if (typeof amount !== "number" ) {
             errors.amount += "Please enter a valid amount, not equal to zero"
@@ -32,7 +32,7 @@ if (Astro.request.method === "POST") {
         if (!hasErrors) {
             
                 const newTransaction = {
-                    title, text, amount, type, date_operation, author
+                    title, content, amount, type, date_operation, author
                 }
                 await locals.pb.collection("transactions").create(newTransaction)
                 return Astro.redirect('/transactions')
@@ -87,8 +87,8 @@ if (Astro.request.method === "POST") {
         <form method="POST">
           <label for="title">Title</label>
           <input type="text" name="title" id="title" placeholder="Title" />
-          <label for="text">Description</label>
-          <textarea name="text" id="text"  placeholder="Description"/>
+          <label for="content">Description</label>
+          <textarea name="content" id="content"  placeholder="Description"/>
           <label for="amount">Amount</label>
           <input type="number" name="amount" id="amount" />
           <label for="date">Date</label>
@@ -102,7 +102,7 @@ if (Astro.request.method === "POST") {
       </div>
 </Layout>
 
-<style>
+<style is:global>
     form {
         display: grid;
         grid-template-columns: max-content 1fr auto;
