@@ -4,6 +4,7 @@ import TransactionCard from '../../../components/transactions/TransactionCard.as
 import { getTransaction } from '../../../service//TransactionsService'
 const { id } = Astro.params
 const transaction = await getTransaction(id)
+console.log(transaction)
 ---
 
 <Layout>

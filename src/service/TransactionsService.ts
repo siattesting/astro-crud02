@@ -5,7 +5,7 @@ export interface Transaction {
   author: string;
   title: string;
   text: string;
-  date_operation: number;
+  date_operation: string;
   type: string;
   created: number;
 }
@@ -15,7 +15,7 @@ export async function createTransaction() {
     author: string,
     title: string,
     text: string,
-    date_operation: number,
+    date_operation: string,
     type: string,
   });
 }
