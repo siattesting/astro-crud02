@@ -12,7 +12,7 @@ async function submit(e: SubmitEvent) {
     responseMessage = data.message;
   }
 </script>
-<form on:submit={submit}>
+<form on:submit|preventDefault={submit} >
     <label for="title">Title</label>
     <input type="hidden" name="author" value="demba@me.com">
     <input type="text" id="title" name="title" />

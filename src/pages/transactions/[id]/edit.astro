@@ -22,7 +22,7 @@ if (Astro.request.method === "POST") {
         if (typeof title !== "string" || title.length < 3) {
             errors.title += "Please enter a title of at least 3 characters"
         }
-        if (typeof content !== "string" || SVGTextContentElement.length < 3) {
+        if (typeof content !== "string" || content.length < 3) {
             errors.content += "Please enter a description of at least 3 characters"
         }
         if (typeof amount !== "number" ) {
@@ -54,8 +54,8 @@ if (Astro.request.method === "POST") {
         <form method="POST">
           <label for="title">Title</label>
           <input type="text" name="title" id="title" placeholder="Title" value={transaction.title} />
-          <label for="text">Description</label>
-          <textarea name="text" id="text"  placeholder="Description" value={transaction.text}/>
+          <label for="content">Content</label>
+          <input type="text" name="content" id="content" placeholder="Description" value={transaction.content} />
           <label for="amount">Amount</label>
           <input type="number" name="amount" id="amount" value={transaction?.amount} />
           <label for="date">Date</label>
