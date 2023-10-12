@@ -17,7 +17,7 @@ if (Astro.request.method === "POST") {
         const amount = Number(data.get("amount"));
         const type = data.get("type");
         const date_operation = data.get("date");
-        const author = await locals.pb.authStore.model.email;
+        const author = await locals.pb.authStore.model.id;
         // Validation
         if (typeof title !== "string" || title.length < 3) {
             errors.title += "Please enter a title of at least 3 characters"
